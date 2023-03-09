@@ -1,40 +1,40 @@
+
 DROP DATABASE IF EXISTS company_db;
 CREATE DATABASE company_db;
 
 USE company_db;
 
 CREATE TABLE department (
-  id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  name VARCHAR(30) NOT NULL
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    name: VARCHAR(30) NOT NULL
 );
 
-CREATE TABLE roles (
-  id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  title VARCHAR(30) NOT NULL,
-  salary INT,
-  department INT,
-  FOREIGN KEY (department)
-  REFERENCES department(id)
-  ON DELETE SET NULL
-);
+CREATE TABLE role (
+    id: INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    title: VARCHAR(30) NOT NULL,
+    salary: DECIMAL (7, 2), --total of 7 digits w/ 2 decimal value. (12345.67)
+    department_id: INT,
+    INDEX dep_ind (department_id),
+    CONSTRAINT fk_department 
+    FOREIGN KEY (department_id) 
+    REFERENCES department(id) 
+    ON DELETE CASCADE
+)
 
-CREATE TABLE employees (
-  id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, -- ?? Do I keep the primary key here becausse of the manager?
-  first_name VARCHAR(30) NOT NULL,
-  second_name VARCHAR(30) NOT NULL,
-  job_title VARCHAR(30),
-  FOREIGN KEY (roles)
-  REFERENCES roles(title)
-  ON DELETE SET NULL, -- ?? is this duplicate??
-  department INT,
-  FOREIGN KEY (department)
-  REFERENCES department(id)
-  ON DELETE SET NULL,
-  salary INT,
-  FOREIGN KEY (roles)
-  REFERENCES roles(salary)
-  ON DELETE SET NULL,
-  manager VARCHAR(30),
-  FOREIGN KEY (roles)
-  REFERENCES roles(job_title)
-);
+CREATE TABLE employee (
+    id: INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    first_name: VARCHAR(75) NOT NULL,
+    last_name: VARCHAR(75) NOT NULL,
+    role_id: INT,
+    INDEX rol_ind (role_id),
+    CONSTRAINT fk_role
+    FOREIGN KEY (role_id)
+    REFERENCES role(id) -- hold reference to employee role
+    ON DELETE CASCADE, -- deleteing both parent & child tables
+    manager_id: INT,
+    INDEX man_ind (manager_id), 
+    CONSTRAINT fk_manager 
+    FOREIGN KEY (manager_id) -- that is the manager of current emplyee
+    REFERENCES employee(id) -- hold reference to another employee
+    ON DELETE SET NULL --if employee does not have manager, table will display null (a lot more goes here, but you get what happening...)
+)
