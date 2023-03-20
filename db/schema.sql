@@ -12,7 +12,7 @@ CREATE TABLE department (
 CREATE TABLE role (
     id: INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     title: VARCHAR(30) NOT NULL,
-    salary: DECIMAL (7, 2), --total of 7 digits w/ 2 decimal value. (12345.67)
+    salary: DECIMAL(7, 2),
     department_id: INT,
     INDEX dep_ind (department_id),
     CONSTRAINT fk_department 
@@ -30,11 +30,11 @@ CREATE TABLE employee (
     CONSTRAINT fk_role
     FOREIGN KEY (role_id)
     REFERENCES role(id) -- hold reference to employee role
-    ON DELETE CASCADE, -- deleteing both parent & child tables
+    ON DELETE CASCADE, -- deleting both parent & child tables
     manager_id: INT,
     INDEX man_ind (manager_id), 
     CONSTRAINT fk_manager 
-    FOREIGN KEY (manager_id) -- that is the manager of current emplyee
+    FOREIGN KEY (manager_id) -- that is the manager of current employee
     REFERENCES employee(id) -- hold reference to another employee
     ON DELETE SET NULL --if employee does not have manager, table will display null (a lot more goes here, but you get what happening...)
 )

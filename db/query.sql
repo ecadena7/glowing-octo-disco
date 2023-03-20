@@ -1,9 +1,8 @@
-SELECT employees.first_name AS First Name, 
-employees.last_name AS Last Name,
-employees.job_title AS Title,
-employees.department AS Department,
-employees.salary AS Salary,
-employees.manager AS Manager,
+SELECT * 
+FROM role
+JOIN department ON role.department_id;
 
-FROM employees
-
+SELECT *
+FROM employee
+JOIN role ON employee.role_id
+WHERE employee.manager_id IS NULL
